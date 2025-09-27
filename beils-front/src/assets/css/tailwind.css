@@ -16,11 +16,11 @@
 	--text-6xl: 3.75rem;
 
 	/* Container breakpoints */
-	--breakpoint-sm: 375px;
-	--breakpoint-m: 768px;
-	--breakpoint-lg: 992px;
+	--breakpoint-sm: 320px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
 	--breakpoint-xl: 1250px;
-	--breakpoint-xxl: 1440px;
+	--breakpoint-2xl: 1440px;
 
 	/* Spacing scale (rem values) */
 	--spacing-0: 0rem;
