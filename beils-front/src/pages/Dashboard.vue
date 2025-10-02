@@ -1,18 +1,11 @@
+<template>
+	<div class="flex">
+		<button class="btn btn-active btn-error" @click="Supabase.auth.signOut()">Sign Out</button>
+	</div>
+</template>
+
 <script setup lang="ts">
-	import NavBar from '@/components/commons/NavBar.vue'
-	import MainLayout from '@/components/layouts/MainLayout.vue'
+	import { Supabase } from '@/services/supabase'
 </script>
 
-<template>
-	<MainLayout>
-		<template #header>
-			<NavBar />
-		</template>
-		<template #content>
-			<div>Dashboard</div>
-		</template>
-		<template #footer>
-			<div>Dashboard</div>
-		</template>
-	</MainLayout>
-</template>
+<style scoped></style>
