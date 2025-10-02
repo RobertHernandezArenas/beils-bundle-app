@@ -5,15 +5,14 @@ export const router = createRouter({
 	routes: [
 		{
 			path: '/',
+			name: 'login',
+			component: () => import('@pages/SignIn.vue')
+		},
+		{
+			path: '/dashboard',
 			name: 'home',
 			component: () => import('@pages/Dashboard.vue'),
-			children: [
-				{
-					path: '/login',
-					name: 'login',
-					component: () => import('@pages/SignIn.vue')
-				}
-			]
+			children: []
 		}
 	]
 })

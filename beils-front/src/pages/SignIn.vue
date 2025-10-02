@@ -1,11 +1,7 @@
 <script setup lang="ts">
-	import { Supabase, useClient } from '@/services/supabase'
-	import { useAuth } from '@/composable/useAuth'
-	import { reactive, ref, watchEffect } from 'vue'
-
-	const email = ref('')
-	const password = ref('')
-	const errors = reactive({ email: '', password: '' })
+	import LogoBeilsIcon from '@/components/icons/LogoBeilsIcon.vue'
+	import { Supabase, useClient } from '@composables/useSupabase'
+	import { reactive, watchEffect } from 'vue'
 
 	const { login, logInOTP, signUp } = useClient()
 
@@ -33,33 +29,20 @@
 			console.error(error)
 		}
 	}
-
-	const props = defineProps<{ isLogin: boolean }>()
-	const { authMutation } = useAuth()
-
-	const handleSubmit = () => {
-		// Validación simple (KISS)
-		errors.email = !email.value ? 'Email requerido' : ''
-		errors.password = password.value.length < 6 ? 'Mínimo 6 caracteres' : ''
-
-		if (!errors.email && !errors.password) {
-			authMutation.mutate({
-				email: email.value,
-				password: password.value,
-				isLogin: props.isLogin
-			})
-		}
-	}
 </script>
 
 <template>
 	<div class="flex flex-col justify-center w-full h-full lg:items-center">
-		<form class="bg-white w-full px-4 py-8 rounded-lg lg:max-w-sm" @submit.prevent="handleSubmit">
-			<figure></figure>
-			<h1 class="text-2xl font-extrabold tracking-[.65rem] leading-[2.5rem] text-center">
-				BEiLS
-			</h1>
-			<p class="text-sm tracking-[4px] leading-[2.5rem] text-center">BELLEZA HONESTA</p>
+		<form class="bg-white w-full px-4 py-8 rounded-lg lg:max-w-sm" @submit.prevent="signIn">
+			<div class="flex flex-col items-center mb-12">
+				<!-- <h1
+					class="text-[26px] lg:text-[36px] font-extrabold tracking-[.65rem]"
+				>
+					BEiLS
+				</h1>
+				<p class="text-xs lg:text-sm tracking-[2px]">BELLEZA HONESTA</p> -->
+				<LogoBeilsIcon />
+			</div>
 			<!-- Email Input -->
 			<div class="mt-6">
 				<label for="email" class="block text-sm font-medium text-gray-700">

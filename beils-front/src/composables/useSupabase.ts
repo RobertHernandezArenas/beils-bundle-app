@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import { onMounted, watchEffect } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
 export const Supabase = createClient(
 	import.meta.env.VITE_APP_SUPABASE_URL,
@@ -9,7 +9,6 @@ export const Supabase = createClient(
 
 export function useClient() {
 	const router = useRouter()
-	const route = useRoute()
 
 	async function signUp(email: string, password: string) {
 		try {
@@ -36,8 +35,12 @@ export function useClient() {
 	}
 
 	async function onAuthStateChange() {
-		Supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
-			return !session ? router.push('/login') : router.push('/')
+		Supabase.auth.onAuthStateChange(async (event, session) => {
+			if (!session) {
+				await router.push('/')
+			} else {
+				await router.push('/dashboard')
+			}
 		})
 	}
 

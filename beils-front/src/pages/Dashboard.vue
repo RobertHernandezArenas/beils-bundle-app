@@ -5,7 +5,5 @@
 </template>
 
 <script setup lang="ts">
-	import { Supabase } from '@/services/supabase'
+	import { Supabase } from '@composables/useSupabase'
 </script>
-
-<style scoped></style>
