@@ -1,9 +1,10 @@
 <script setup lang="ts">
-	import { reactive, watchEffect } from 'vue'
+	import LogoBeilsIcon from '@/components/icons/LogoBeilsIcon.vue'
 	import { Supabase, useClient } from '@composables/useSupabase'
-	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
+	import { reactive, watchEffect } from 'vue'
 
-	const { isLoading, login, logout } = useClient()
+	const { signUp, logInOTP, login, onAuthStateChange, isLoading, error, isAuthenticated } =
+		useClient()
 
 	interface LoginForm {
 		email: string
@@ -32,21 +33,11 @@
 </script>
 
 <template>
-	<div
-		v-if="isLoading"
-		class="flex flex-col justify-center items-center text-4xl min-h-[100dvh] overflow-hidden"
-	>
-		<LoaderCustom />
-	</div>
-
+	<div v-if="isLoading" class="flex flex-col justify-center items-center text-4xl">caca</div>
 	<div v-else class="flex flex-col justify-center w-full h-full lg:items-center">
 		<form class="w-full px-4 py-8 rounded-lg lg:max-w-sm" @submit.prevent="signIn">
 			<div class="flex flex-col items-center mb-10 lg:mb-12">
-				<h1
-					class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]"
-				>
-					BEiLS
-				</h1>
+				<h1 class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]">BEiLS</h1>
 				<p class="text-sm tracking-[2px] text-black">BELLEZA HONESTA</p>
 				<!-- <LogoBeilsIcon /> -->
 			</div>
@@ -114,7 +105,11 @@
 			<div class="mt-6 text-center">
 				<p class="text-sm text-gray-600">
 					No recuerdo mi contraseña:
-					<a href="#" class="font-medium text-beils-600 hover:text-beils-800" @click="logout">
+					<a
+						href="#"
+						class="font-medium text-beils-600 hover:text-beils-800"
+						@click="Supabase.auth.signOut()"
+					>
 						Recuperarla ahora
 					</a>
 				</p>

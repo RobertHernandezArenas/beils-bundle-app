@@ -5,12 +5,12 @@ export const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			name: 'login',
+      name: 'login',
 			component: () => import('@pages/SignIn.vue')
 		},
 		{
 			path: '/dashboard',
-			name: 'home',
+			name: 'dashboard',
 			component: () => import('@pages/Dashboard.vue'),
 			children: []
 		}

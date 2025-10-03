@@ -1,5 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
-import { watchEffect } from 'vue'
+import { createClient, type User } from '@supabase/supabase-js'
+
+import { watchEffect, ref, readonly, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 export const Supabase = createClient(
@@ -9,6 +10,12 @@ export const Supabase = createClient(
 
 export function useClient() {
 	const router = useRouter()
+
+	const user = ref<User | null>(null)
+	const isLoading = ref(false)
+	const error = ref<string | null>(null)
+
+	const isAuthenticated = computed(() => !!user.value)
 
 	async function signUp(email: string, password: string) {
 		try {
@@ -27,26 +34,72 @@ export function useClient() {
 	}
 
 	async function login(email: string, password: string) {
+		isLoading.value = true
+		error.value = null
 		try {
-			return await Supabase.auth.signInWithPassword({ email, password })
-		} catch (error) {
-			console.error('💩', error)
+			const { data, error: authError } = await Supabase.auth.signInWithPassword({
+				email,
+				password
+			})
+
+			if (authError) throw authError
+
+			user.value = data.user
+			console.log('👽', user.value)
+			return { success: true }
+		} catch (err) {
+			error.value = err instanceof Error ? err.message : 'Login failed'
+			return { success: false, error: error.value }
+		} finally {
+			isLoading.value = false
+		}
+	}
+
+	async function logout() {
+		isLoading.value = true
+		error.value = null
+		try {
+			const { error: authError } = await Supabase.auth.signOut()
+
+			if (authError) throw authError
+
+			return { success: true }
+		} catch (err) {
+			error.value = err instanceof Error ? err.message : 'Login failed'
+			return { success: false, error: error.value }
+		} finally {
+			isLoading.value = false
 		}
 	}
 
 	async function onAuthStateChange() {
 		Supabase.auth.onAuthStateChange(async (event, session) => {
 			if (!session) {
-				await router.push('/')
+				await router.replace({
+					name: 'login'
+				})
 			} else {
-				await router.push('/dashboard')
+				await router.replace({
+					name: 'dashboard'
+				})
 			}
 		})
 	}
 
 	watchEffect(() => {
 		onAuthStateChange()
+
+		console.log('🚕', user.value)
 	})
 
-	return { signUp, logInOTP, login, onAuthStateChange }
+	return {
+		signUp,
+		logInOTP,
+		login,
+		logout,
+		onAuthStateChange,
+		isLoading: readonly(isLoading),
+		error: readonly(error),
+		isAuthenticated
+	}
 }

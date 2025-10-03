@@ -4,7 +4,7 @@
 </script>
 
 <template>
-	<AppMainLayout>
+	<AppMainLayout class="bg-beils-50 overflow-x-hidden">
 		<template #header>
 			<!-- HEADER -->
 			<header class="header relative h-fit">

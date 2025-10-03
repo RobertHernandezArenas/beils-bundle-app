@@ -18,5 +18,8 @@ export default defineConfig({
 			'@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
 			'@sections': fileURLToPath(new URL('./src/pages/sections', import.meta.url))
 		}
+	},
+	server: {
+		allowedHosts: ['disclamatory-boraginaceous-cedric.ngrok-free.dev']
 	}
 })
