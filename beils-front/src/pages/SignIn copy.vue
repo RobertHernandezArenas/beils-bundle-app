@@ -4,7 +4,7 @@
 	import { reactive, watchEffect } from 'vue'
 
 	const { signUp, logInOTP, login, onAuthStateChange, isLoading, error, isAuthenticated } =
-		useClient()
+		useSupabase()
 
 	interface LoginForm {
 		email: string
@@ -37,7 +37,11 @@
 	<div v-else class="flex flex-col justify-center w-full h-full lg:items-center">
 		<form class="w-full px-4 py-8 rounded-lg lg:max-w-sm" @submit.prevent="signIn">
 			<div class="flex flex-col items-center mb-10 lg:mb-12">
-				<h1 class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]">BEiLS</h1>
+				<h1
+					class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]"
+				>
+					BEiLS
+				</h1>
 				<p class="text-sm tracking-[2px] text-black">BELLEZA HONESTA</p>
 				<!-- <LogoBeilsIcon /> -->
 			</div>

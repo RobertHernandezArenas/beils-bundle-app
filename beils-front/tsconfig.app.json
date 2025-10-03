@@ -5,6 +5,7 @@
 			"@assets/*": ["./src/assets/*"],
 			"@components/*": ["./src/components/*"],
 			"@composables/*": ["./src/composables/*"],
+			"@guards/*": ["./src/router/guards/*"],
 			"@icons/*": ["./src/components/icons/*"],
 			"@layouts/*": ["./src/components/layouts/*"],
 			"@pages/*": ["./src/pages/*"],

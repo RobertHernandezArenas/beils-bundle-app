@@ -1,9 +1,11 @@
 <script setup lang="ts">
 	import { reactive, watchEffect } from 'vue'
-	import { Supabase, useClient } from '@composables/useSupabase'
+	import { Supabase, useSupabase } from '@composables/useSupabase'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
+	import { useRouter } from 'vue-router'
 
-	const { isLoading, login, logout } = useClient()
+	const { isLoading, login, logout, user } = useSupabase()
+	const router = useRouter()
 
 	interface LoginForm {
 		email: string
@@ -17,14 +19,22 @@
 		rememberMe: false
 	})
 
-	watchEffect(() => {
-		console.log('☠️', Supabase.auth.getUser())
-	})
-
 	const signIn = async () => {
 		try {
 			// signUp(form.email, form.password)
-			await login(form.email, form.password)
+      await login(form.email, form.password)
+      Supabase.auth.onAuthStateChange(async (event, session) => {
+			if (!session) {
+				await router.replace({
+					name: 'login'
+				})
+      } else {
+        user.value = session.user
+				await router.replace({
+					name: 'dashboard'
+				})
+			}
+		})
 		} catch (error) {
 			console.error(error)
 		}

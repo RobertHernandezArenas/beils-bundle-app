@@ -1,8 +1,5 @@
 <script setup lang="ts">
-	import { supabaseClient, useClient } from '@/services/supabase'
 	import { reactive, watchEffect } from 'vue'
-
-	const { logInOTP, signUp } = useClient()
 
 	interface LoginForm {
 		email: string
@@ -16,18 +13,7 @@
 		rememberMe: false
 	})
 
-	watchEffect(() => {
-		console.log('☠️', supabaseClient.auth.getUser())
-	})
-
-	const signIn = async () => {
-		try {
-			// signUp(form.email, form.password)
-			await logInOTP(form.email)
-		} catch (error) {
-			console.error(error)
-		}
-	}
+	watchEffect(() => {})
 </script>
 
 <template>
@@ -84,7 +70,6 @@
 			<button
 				type="submit"
 				class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-				@click.prevent="signIn"
 			>
 				Sign in
 			</button>
@@ -94,13 +79,7 @@
 		<div class="mt-6 text-center">
 			<p class="text-sm text-gray-600">
 				Don't have an account?
-				<a
-					href="#"
-					class="font-medium text-indigo-600 hover:text-indigo-500"
-					@click="supabaseClient.auth.signOut()"
-				>
-					Sign up now
-				</a>
+				<a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Sign up now</a>
 			</p>
 		</div>
 	</form>

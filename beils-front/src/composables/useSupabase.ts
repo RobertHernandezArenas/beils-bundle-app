@@ -1,16 +1,13 @@
 import { createClient, type User } from '@supabase/supabase-js'
 
-import { watchEffect, ref, readonly, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, readonly, computed } from 'vue'
 
 export const Supabase = createClient(
 	import.meta.env.VITE_APP_SUPABASE_URL,
 	import.meta.env.VITE_APP_SUPABASE_KEY
 )
 
-export function useClient() {
-	const router = useRouter()
-
+export function useSupabase() {
 	const user = ref<User | null>(null)
 	const isLoading = ref(false)
 	const error = ref<string | null>(null)
@@ -45,7 +42,7 @@ export function useClient() {
 			if (authError) throw authError
 
 			user.value = data.user
-			console.log('👽', user.value)
+
 			return { success: true }
 		} catch (err) {
 			error.value = err instanceof Error ? err.message : 'Login failed'
@@ -53,8 +50,26 @@ export function useClient() {
 		} finally {
 			isLoading.value = false
 		}
+  }
+
+  /* 	async function onAuthStateChange() {
+		Supabase.auth.onAuthStateChange(async (event, session) => {
+			if (!session) {
+				await router.replace({
+					name: 'login'
+				})
+      } else {
+        user.value = session.user
+				await router.replace({
+					name: 'dashboard'
+				})
+			}
+		})
 	}
 
+	watchEffect(() => {
+		onAuthStateChange()
+	})*/
 	async function logout() {
 		isLoading.value = true
 		error.value = null
@@ -72,32 +87,12 @@ export function useClient() {
 		}
 	}
 
-	async function onAuthStateChange() {
-		Supabase.auth.onAuthStateChange(async (event, session) => {
-			if (!session) {
-				await router.replace({
-					name: 'login'
-				})
-			} else {
-				await router.replace({
-					name: 'dashboard'
-				})
-			}
-		})
-	}
-
-	watchEffect(() => {
-		onAuthStateChange()
-
-		console.log('🚕', user.value)
-	})
-
 	return {
 		signUp,
 		logInOTP,
 		login,
 		logout,
-		onAuthStateChange,
+		user,
 		isLoading: readonly(isLoading),
 		error: readonly(error),
 		isAuthenticated

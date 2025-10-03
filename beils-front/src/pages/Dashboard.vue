@@ -1,8 +1,8 @@
 <script setup lang="ts">
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
-	import { Supabase, useClient } from '@composables/useSupabase'
+	import { Supabase, useSupabase } from '@composables/useSupabase'
 	const { signUp, logInOTP, login, logout, onAuthStateChange, isLoading, error, isAuthenticated } =
-		useClient()
+		useSupabase()
 </script>
 
 <template>

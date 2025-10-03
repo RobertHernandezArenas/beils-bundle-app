@@ -14,6 +14,8 @@ export default defineConfig({
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
 			'@components': fileURLToPath(new URL('./src/components', import.meta.url)),
 			'@composables': fileURLToPath(new URL('./src/composables', import.meta.url)),
+			'@icons': fileURLToPath(new URL('./src/components/icons', import.meta.url)),
+			'@guards': fileURLToPath(new URL('./src/router/guards', import.meta.url)),
 			'@pages': fileURLToPath(new URL('./src/pages', import.meta.url)),
 			'@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
 			'@sections': fileURLToPath(new URL('./src/pages/sections', import.meta.url))
