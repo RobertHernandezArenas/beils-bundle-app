@@ -1,11 +1,11 @@
 <script setup lang="ts">
-	import { reactive, watchEffect } from 'vue'
-	import { Supabase, useSupabase } from '@composables/useSupabase'
+	import { reactive, ref } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
 	import { useRouter } from 'vue-router'
+	import { useAuthStore } from '@/stores/authStore'
 
-	const { isLoading, login, logout, user } = useSupabase()
 	const router = useRouter()
+	const authStore = useAuthStore()
 
 	interface LoginForm {
 		email: string
@@ -19,31 +19,26 @@
 		rememberMe: false
 	})
 
+	const loading = ref(false)
+	const error = ref<string | null>(null)
+
 	const signIn = async () => {
+		error.value = null
+		loading.value = true
 		try {
-			// signUp(form.email, form.password)
-      await login(form.email, form.password)
-      Supabase.auth.onAuthStateChange(async (event, session) => {
-			if (!session) {
-				await router.replace({
-					name: 'login'
-				})
-      } else {
-        user.value = session.user
-				await router.replace({
-					name: 'dashboard'
-				})
-			}
-		})
-		} catch (error) {
-			console.error(error)
+			await authStore.signIn(form.email, form.password)
+			router.push({ name: 'dashboard' })
+		} catch (err: any) {
+			error.value = err.message || 'Error al iniciar sesión'
+		} finally {
+			loading.value = false
 		}
 	}
 </script>
 
 <template>
 	<div
-		v-if="isLoading"
+		v-if="authStore.isLoading"
 		class="flex flex-col justify-center items-center text-4xl min-h-[100dvh] overflow-hidden"
 	>
 		<LoaderCustom />
@@ -124,7 +119,7 @@
 			<div class="mt-6 text-center">
 				<p class="text-sm text-gray-600">
 					No recuerdo mi contraseña:
-					<a href="#" class="font-medium text-beils-600 hover:text-beils-800" @click="logout">
+					<a href="#" class="font-medium text-beils-600 hover:text-beils-800">
 						Recuperarla ahora
 					</a>
 				</p>
