@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"@/*": ["./src/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@components/*": ["./src/components/*"],
+			"@composables/*": ["./src/composables/*"],
+			"@guards/*": ["./src/router/guards/*"],
+			"@icons/*": ["./src/components/icons/*"],
+			"@layouts/*": ["./src/components/layouts/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@sections/*": ["./src/pages/sections/*"]
+		},
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
+	},
+	"exclude": ["src/**/__tests__/*", "node_modules/"],
+	"extends": "@vue/tsconfig/tsconfig.dom.json",
+	"include": [
+		"env.d.ts",
+		"src/**/*",
+		"src/**/*.vue",
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue"
+	]
+}

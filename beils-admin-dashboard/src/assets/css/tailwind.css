@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+	/* Typography / Font sizes */
+	--font-sans: 'Roboto', sans-serif;
+
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 2rem;
+	--text-4xl: 2.25rem;
+	--text-5xl: 3rem;
+	--text-6xl: 3.75rem;
+
+	/* Container breakpoints */
+	--breakpoint-sm: 320px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1250px;
+	--breakpoint-2xl: 1440px;
+
+	/* Spacing scale (rem values) */
+	--spacing-0: 0rem;
+	--spacing-0-5: 0.125rem;
+	--spacing-1: 0.25rem;
+	--spacing-1-5: 0.375rem;
+	--spacing-2: 0.5rem;
+	--spacing-2-5: 0.625rem;
+	--spacing-3: 0.75rem;
+	--spacing-3-5: 0.875rem;
+	--spacing-4: 1rem;
+	--spacing-5: 1.25rem;
+	--spacing-6: 1.5rem;
+	--spacing-7: 1.75rem;
+	--spacing-8: 2rem;
+	--spacing-9: 2.25rem;
+	--spacing-10: 2.5rem;
+	--spacing-11: 2.75rem;
+	--spacing-12: 3rem;
+	--spacing-14: 3.5rem;
+	--spacing-16: 4rem;
+	--spacing-20: 5rem;
+	--spacing-24: 6rem;
+	--spacing-28: 7rem;
+	--spacing-32: 8rem;
+
+	/* Color palette */
+	--color-beils-50: oklch(0.983 0.002 67.9);
+	--color-beils-100: oklch(0.974 0.003 67.83);
+	--color-beils-200: oklch(0.947 0.006 75.38);
+	--color-beils-300: oklch(0.923 0.01 81.76);
+	--color-beils-400: oklch(0.897 0.014 78.24);
+	--color-beils-500: oklch(0.868 0.019 75.29);
+	--color-beils-600: oklch(0.725 0.019 78.19);
+	--color-beils-700: oklch(0.579 0.015 78.19);
+	--color-beils-800: oklch(0.43 0.012 72.5);
+	--color-beils-900: oklch(0.286 0.008 84.57);
+
+	/* Neutral colors */
+	--color-neutral-50: #f1f1f1;
+	--color-neutral-100: #e2e2e2;
+	--color-neutral-200: #c9c9c9;
+	--color-neutral-300: #aeaeae;
+	--color-neutral-400: #969696;
+	--color-neutral-500: #7c7c7c;
+	--color-neutral-600: #666666;
+	--color-neutral-700: #4e4e4e;
+	--color-neutral-800: #393939;
+	--color-neutral-900: #242424;
+	--color-neutral-950: #1a1a1a;
+
+	/* error status */
+	--color-error-50: oklch(0.959 0.013 17.52);
+	--color-error-100: oklch(0.925 0.024 17.67);
+	--color-error-200: oklch(0.842 0.057 18.36);
+	--color-error-300: oklch(0.77 0.09 19.35);
+	--color-error-400: oklch(0.688 0.137 21.27);
+	--color-error-500: oklch(0.613 0.185 24.39);
+	--color-error-600: oklch(0.52 0.156 24.36);
+	--color-error-700: oklch(0.43 0.129 24.38);
+	--color-error-800: oklch(0.331 0.1 24.45);
+	--color-error-900: oklch(0.241 0.073 24.39);
+	--color-error-950: oklch(0.184 0.055 24.33);
+
+	/* success status */
+	--color-success-50: oklch(0.979 0.029 146.85);
+	--color-success-100: oklch(0.958 0.061 147.22);
+	--color-success-200: oklch(0.907 0.155 146.85);
+	--color-success-300: oklch(0.866 0.224 146.11);
+	--color-success-400: oklch(0.823 0.214 146.06);
+	--color-success-500: oklch(0.788 0.204 146.11);
+	--color-success-600: oklch(0.655 0.17 146.11);
+	--color-success-700: oklch(0.53 0.138 146.14);
+	--color-success-800: oklch(0.394 0.102 146.07);
+	--color-success-900: oklch(0.27 0.07 145.95);
+	--color-success-950: oklch(0.201 0.051 146.28);
+
+	/* warning status */
+	--color-warning-50: oklch(0.983 0.011 63.39);
+	--color-warning-100: oklch(0.966 0.023 65.47);
+	--color-warning-200: oklch(0.933 0.049 70.1);
+	--color-warning-300: oklch(0.899 0.08 72.6);
+	--color-warning-400: oklch(0.865 0.117 75.84);
+	--color-warning-500: oklch(0.834 0.163 80.21);
+	--color-warning-600: oklch(0.693 0.143 81);
+	--color-warning-700: oklch(0.554 0.115 80.54);
+	--color-warning-800: oklch(0.416 0.086 80.63);
+	--color-warning-900: oklch(0.279 0.058 80.95);
+	--color-warning-950: oklch(0.208 0.043 79.58);
+
+	/* info status */
+	--color-info-50: oklch(0.958 0.015 282.02);
+	--color-info-100: oklch(0.906 0.034 280.28);
+	--color-info-200: oklch(0.822 0.068 278.32);
+	--color-info-300: oklch(0.729 0.107 276.85);
+	--color-info-400: oklch(0.636 0.144 273.56);
+	--color-info-500: oklch(0.551 0.178 269.09);
+	--color-info-600: oklch(0.465 0.157 268.66);
+	--color-info-700: oklch(0.387 0.131 268.6);
+	--color-info-800: oklch(0.308 0.103 268.02);
+	--color-info-900: oklch(0.218 0.074 268.41);
+	--color-info-950: oklch(0.179 0.061 268.99);
+
+	/* Container */
+	--container-padding: 1rem;
+
+	/* Container widths (usando tus breakpoints como max-widths) */
+	--container-sm: 375px;
+	--container-md: 768px;
+	--container-lg: 992px;
+	--container-xl: 1250px;
+	--container-2xl: 1440px;
+}
+
+@layer utilities {
+	.container {
+		width: 100%;
+		margin-inline: auto; /* centrado */
+		padding-inline: var(--container-padding, 1.5rem);
+		max-width: 100%; /* <375px o default */
+	}
+	@media (min-width: 768px) {
+		.container {
+			max-width: 768px;
+		}
+	}
+	@media (min-width: 1024px) {
+		.container {
+			max-width: 1024px;
+		}
+	}
+	@media (min-width: 1250px) {
+		.container {
+			max-width: 1250px;
+			padding-inline: 64px;
+		}
+	}
+	@media (min-width: 1440px) {
+		.container {
+			max-width: 1440px;
+		}
+	}
+}
