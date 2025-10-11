@@ -2,11 +2,14 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { Session, User } from '@supabase/supabase-js'
 import { Supabase } from '@/services/Supabase'
+import { router } from '@/router'
 
 export const useAuthStore = defineStore('auth', () => {
 	const session = ref<Session | null>(null)
 	const user = computed<User | null>(() => session.value?.user ?? null)
 	const isLoading = ref(false)
+
+	const isUserAuthenticated = computed(() => session.value?.user)
 
 	const signIn = async (email: string, password: string) => {
 		isLoading.value = true
@@ -20,6 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
 	const signOut = async () => {
 		await Supabase.auth.signOut()
 		session.value = null
+		router.replace({ name: 'login' })
 	}
 
 	const initAuth = async () => {
@@ -30,5 +34,5 @@ export const useAuthStore = defineStore('auth', () => {
 		})
 	}
 
-	return { session, user, isLoading, signIn, signOut, initAuth }
+	return { session, user, isLoading, signIn, signOut, initAuth, isUserAuthenticated }
 })

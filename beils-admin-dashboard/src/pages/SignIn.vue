@@ -2,7 +2,7 @@
 	import { reactive, ref } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
 	import { useRouter } from 'vue-router'
-	import { useAuthStore } from '@/stores/authStore'
+	import { useAuthStore } from '@/stores/auth.store'
 
 	const router = useRouter()
 	const authStore = useAuthStore()
@@ -44,8 +44,8 @@
 		<LoaderCustom />
 	</div>
 
-	<div v-else class="flex flex-col justify-center w-full h-full lg:items-center">
-		<form class="w-full px-4 py-8 rounded-lg lg:max-w-sm" @submit.prevent="signIn">
+	<div v-else class="flex flex-col justify-center items-center w-full h-full ">
+		<form class="px-4 py-8 rounded-lg" @submit.prevent="signIn">
 			<div class="flex flex-col items-center mb-10 lg:mb-12">
 				<h1
 					class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]"

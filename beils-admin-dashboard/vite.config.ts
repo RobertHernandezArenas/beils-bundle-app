@@ -18,7 +18,8 @@ export default defineConfig({
 			'@guards': fileURLToPath(new URL('./src/router/guards', import.meta.url)),
 			'@pages': fileURLToPath(new URL('./src/pages', import.meta.url)),
 			'@layouts': fileURLToPath(new URL('./src/components/layouts', import.meta.url)),
-			'@sections': fileURLToPath(new URL('./src/pages/sections', import.meta.url))
+			'@stores': fileURLToPath(new URL('./src/stores', import.meta.url)),
+			'@sections': fileURLToPath(new URL('./src/pages/sections', import.meta.url)),
 		}
 	},
 	server: {
