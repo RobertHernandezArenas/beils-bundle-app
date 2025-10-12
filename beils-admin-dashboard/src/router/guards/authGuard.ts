@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/authStore'
+import { useAuthStore } from '@/stores/auth.store'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 export const authGuard = async (
@@ -7,9 +7,12 @@ export const authGuard = async (
 	next: NavigationGuardNext
 ) => {
 	const authStore = useAuthStore()
-	if (to.meta.requiresAuth && !authStore.session) {
+  if (to.meta.requiresAuth && !authStore.session) {
+    console.log('🚫 Acceso denegado, redirigiendo a login', authStore.session)
 		next({ name: 'login' })
+	} else if (to.meta.redirectIfAuthenticated && authStore.session) {
+		next({ name: 'dashboard' })
 	} else {
-		next()
-	}
+    next()
+  }
 }
