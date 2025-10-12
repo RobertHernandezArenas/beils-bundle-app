@@ -41,7 +41,7 @@
 				</aside>
 				<div class="w-full h-full inline-flex flex-col lg:flex-5">
 					<div v-if="authStore.isUserAuthenticated" class="flex flex-col p-4">
-						<h2 class="text-2xl font-bold">{{ breadcrumbsStore.items[0].text }}</h2>
+						<h2 class="text-2xl font-bold">{{ breadcrumbsStore?.items[0]?.text }}</h2>
 						<Breadcumbs  />
 					</div>
 					<RouterView />

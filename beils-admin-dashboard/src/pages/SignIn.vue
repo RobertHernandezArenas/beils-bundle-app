@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { reactive, ref } from 'vue'
+	import { reactive, ref, onMounted } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
 	import { useRouter } from 'vue-router'
 	import { useAuthStore } from '@/stores/auth.store'
@@ -22,10 +22,36 @@
 	const loading = ref(false)
 	const error = ref<string | null>(null)
 
+	// Cargar credenciales guardadas al montar el componente
+	onMounted(() => {
+		const savedCredentials = localStorage.getItem('rememberedCredentials')
+		if (savedCredentials) {
+			try {
+				const credentials = JSON.parse(savedCredentials)
+				form.email = credentials.email
+				form.password = credentials.password
+				form.rememberMe = true
+			} catch (e) {
+				console.error('Error loading saved credentials:', e)
+			}
+		}
+	})
+
 	const signIn = async () => {
 		error.value = null
 		loading.value = true
 		try {
+			// Guardar credenciales si "Recordar sesión" está marcado
+			if (form.rememberMe) {
+				localStorage.setItem('rememberedCredentials', JSON.stringify({
+					email: form.email,
+					password: form.password
+				}))
+			} else {
+				// Eliminar credenciales guardadas si no está marcado
+				localStorage.removeItem('rememberedCredentials')
+			}
+
 			await authStore.signIn(form.email, form.password)
 			router.push({ name: 'dashboard' })
 		} catch (err: any) {

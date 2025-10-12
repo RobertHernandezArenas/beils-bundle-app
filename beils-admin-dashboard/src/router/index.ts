@@ -6,15 +6,6 @@ export const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
-			path: '/',
-			name: 'login',
-			meta: {
-				title: 'Autenticación',
-				breadcumb: 'Autenticación'
-			},
-			component: () => import('@pages/SignIn.vue')
-		},
-		{
 			path: '/dashboard',
 			name: 'dashboard',
 			meta: {
@@ -23,6 +14,15 @@ export const router = createRouter({
 				breadcumb: 'Panel de Control'
 			},
 			component: () => import('@pages/Dashboard.vue')
+		},
+		{
+			path: '/',
+			name: 'login',
+			meta: {
+				title: 'Autenticación',
+				breadcumb: 'Autenticación'
+			},
+			component: () => import('@pages/SignIn.vue')
 		},
 		{
 			path: '/clients',
