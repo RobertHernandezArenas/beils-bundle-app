@@ -8,7 +8,6 @@ export const authGuard = async (
 ) => {
 	const authStore = useAuthStore()
   if (to.meta.requiresAuth && !authStore.session) {
-    console.log('🚫 Acceso denegado, redirigiendo a login', authStore.session)
 		next({ name: 'login' })
 	} else if (to.meta.redirectIfAuthenticated && authStore.session) {
 		next({ name: 'dashboard' })
