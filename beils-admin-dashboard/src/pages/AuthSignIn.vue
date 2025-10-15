@@ -2,7 +2,6 @@
 	import { reactive } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
 	import { useAuthStore } from '@/stores/auth.store'
-	import { Supabase } from '@/services/Supabase'
 
 	const authStore = useAuthStore()
 
@@ -98,11 +97,12 @@
 			<!-- Recover Password Link -->
 			<div class="mt-6 text-center">
 				<p class="text-sm text-gray-600">
-					Recuperar
-					<a href="#" class="text-beils-600 hover:text-beils-800 font-medium">contraseña</a>
+					¿Olvidaste la contraseña?
+					<a href="#" class="text-beils-600 hover:text-beils-800 font-medium">
+						Recuperar contraseña
+					</a>
 				</p>
 			</div>
 		</form>
-
 	</div>
 </template>

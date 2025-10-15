@@ -2,15 +2,33 @@
 	import { useNavbarData } from '@/data/navbar-items'
 	import { useAuthStore } from '@/stores/auth.store'
 	import { TextAlignJustify, LogOut } from 'lucide-vue-next'
+	import { ref } from 'vue'
 
 	const authStore = useAuthStore()
 	const navbarData = useNavbarData()
+
+	const drawerCheckbox = ref<HTMLInputElement | null>(null) // 👈 referencia al checkbox
+
+	const closeDrawer = () => {
+		if (drawerCheckbox.value) {
+			drawerCheckbox.value.checked = false
+		}
+	}
+
+	const handleSignOut = async () => {
+		await authStore.signOut()
+		closeDrawer()
+	}
+
+	const handleNavigation = () => {
+		closeDrawer()
+	}
 </script>
 
 <template>
 	<!-- drawer -->
 	<div class="drawer bg-white">
-		<input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+		<input id="my-drawer-3" ref="drawerCheckbox" type="checkbox" class="drawer-toggle" />
 		<div class="drawer-content flex flex-col">
 			<!-- Navbar -->
 			<div
@@ -41,13 +59,17 @@
 		<div class="drawer-side">
 			<label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
 			<ul class="menu bg-base-200 min-h-full w-80 p-4">
-				<li v-for="menuLabel of navbarData.items" :key="menuLabel.name">
+				<li
+					v-for="menuLabel of navbarData.items"
+					:key="menuLabel.name"
+					@click="handleNavigation"
+				>
 					<RouterLink :to="menuLabel.to" class="text-lg">
 						<i :data-lucide="menuLabel.icon"></i>
 						{{ menuLabel.name }}
 					</RouterLink>
 				</li>
-				<li @click="authStore.signOut">
+				<li @click="handleSignOut">
 					<span class="text-lg">
 						<LogOut />
 						Cerrar sesión
