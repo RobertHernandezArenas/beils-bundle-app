@@ -6,7 +6,7 @@ export const useNavbarData = () => {
 		{
 			name: 'Vista general',
 			icon: 'layout-dashboard',
-			to: '/'
+			to: '/dashboard'
 		},
 		{
 			name: 'Clientes',

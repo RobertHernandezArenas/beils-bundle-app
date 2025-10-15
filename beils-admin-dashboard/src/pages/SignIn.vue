@@ -1,10 +1,9 @@
 <script setup lang="ts">
-	import { reactive, ref, onMounted } from 'vue'
+	import { reactive } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
-	import { useRouter } from 'vue-router'
 	import { useAuthStore } from '@/stores/auth.store'
+	import { Supabase } from '@/services/Supabase'
 
-	const router = useRouter()
 	const authStore = useAuthStore()
 
 	interface LoginForm {
@@ -18,68 +17,23 @@
 		password: '',
 		rememberMe: false
 	})
-
-	const loading = ref(false)
-	const error = ref<string | null>(null)
-
-	// Cargar credenciales guardadas al montar el componente
-	onMounted(() => {
-		const savedCredentials = localStorage.getItem('rememberedCredentials')
-		if (savedCredentials) {
-			try {
-				const credentials = JSON.parse(savedCredentials)
-				form.email = credentials.email
-				form.password = credentials.password
-				form.rememberMe = true
-			} catch (e) {
-				console.error('Error loading saved credentials:', e)
-			}
-		}
-	})
-
-	const signIn = async () => {
-		error.value = null
-		loading.value = true
-		try {
-			// Guardar credenciales si "Recordar sesión" está marcado
-			if (form.rememberMe) {
-				localStorage.setItem('rememberedCredentials', JSON.stringify({
-					email: form.email,
-					password: form.password
-				}))
-			} else {
-				// Eliminar credenciales guardadas si no está marcado
-				localStorage.removeItem('rememberedCredentials')
-			}
-
-			await authStore.signIn(form.email, form.password)
-			router.push({ name: 'dashboard' })
-		} catch (err: any) {
-			error.value = err.message || 'Error al iniciar sesión'
-		} finally {
-			loading.value = false
-		}
-	}
 </script>
 
 <template>
-	<div
-		v-if="authStore.isLoading"
-		class="flex flex-col justify-center items-center text-4xl min-h-[100dvh] overflow-hidden"
-	>
-		<LoaderCustom />
-	</div>
+	<LoaderCustom v-if="authStore.isLoading" />
 
-	<div v-else class="flex flex-col justify-center items-center w-full h-full ">
-		<form class="px-4 py-8 rounded-lg" @submit.prevent="signIn">
-			<div class="flex flex-col items-center mb-10 lg:mb-12">
+	<div v-else class="flex h-full w-full flex-col items-center justify-center">
+		<form
+			class="w-xs rounded-lg px-4 py-8 md:w-[412px]"
+			@submit.prevent="authStore.signIn(form.email, form.password)"
+		>
+			<div class="mb-10 flex flex-col items-center lg:mb-12">
 				<h1
-					class="text-[28px] lg:text-[38px] font-extrabold text-black leading-10 lg:leading-12 tracking-[.25rem]"
+					class="text-[28px] leading-10 font-extrabold tracking-[.25rem] text-black lg:text-[38px] lg:leading-12"
 				>
 					BEiLS
 				</h1>
 				<p class="text-sm tracking-[2px] text-black">BELLEZA HONESTA</p>
-				<!-- <LogoBeilsIcon /> -->
 			</div>
 			<!-- Email Input -->
 			<div class="mt-6">
@@ -94,7 +48,7 @@
 						type="email"
 						autocomplete="email"
 						required
-						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-beils-500 focus:border-beils-500 sm:text-sm"
+						class="focus:ring-beils-500 focus:border-beils-500 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm"
 					/>
 				</div>
 			</div>
@@ -110,7 +64,7 @@
 						type="password"
 						autocomplete="current-password"
 						required
-						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-beils-500 focus:border-beils-500 sm:text-sm"
+						class="focus:ring-beils-500 focus:border-beils-500 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm"
 					/>
 				</div>
 			</div>
@@ -123,7 +77,7 @@
 						v-model="form.rememberMe"
 						name="remember-me"
 						type="checkbox"
-						class="h-4 w-4 text-beils-600 focus:ring-beils-500 rounded checked:bg-beils-600 accent-beils-700"
+						class="text-beils-600 focus:ring-beils-500 checked:bg-beils-600 accent-beils-700 h-4 w-4 rounded"
 					/>
 					<label for="remember-me" class="ml-2 block text-sm text-gray-900">
 						Recordar sesión
@@ -135,7 +89,7 @@
 			<div class="mt-6">
 				<button
 					type="submit"
-					class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-beils-600 hover:bg-beils-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-beils-500"
+					class="bg-beils-600 hover:bg-beils-700 focus:ring-beils-500 flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
 				>
 					Iniciar sesión
 				</button>
@@ -144,12 +98,12 @@
 			<!-- Recover Password Link -->
 			<div class="mt-6 text-center">
 				<p class="text-sm text-gray-600">
-					No recuerdo mi contraseña:
-					<a href="#" class="font-medium text-beils-600 hover:text-beils-800">
-						Recuperarla ahora
-					</a>
+					Recuperar
+					<a href="#" class="text-beils-600 hover:text-beils-800 font-medium">contraseña</a>
 				</p>
 			</div>
 		</form>
+		{{ console.log('💩', Supabase.auth.getSession()) }}
+		{{ console.log('👽', Supabase.auth.getUser()) }}
 	</div>
 </template>

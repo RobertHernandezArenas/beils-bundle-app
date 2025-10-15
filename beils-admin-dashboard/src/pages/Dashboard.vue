@@ -1,9 +1,7 @@
 <script setup lang="ts">
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
 	import { useAuthStore } from '@/stores/auth.store'
-	import { useAuthRedirect } from '@/composables/useAuthRedirect'
 
-	useAuthRedirect() // Redirige si no autenticado
 
 	const authStore = useAuthStore()
 </script>
@@ -17,6 +15,6 @@
 	</div>
 
 	<div v-else class="flex">
-		<!-- <button class="btn btn-active btn-error" @click="authStore.signOut">Sign Out</button> -->
+		 <button class="btn btn-active btn-error" @click="authStore.signOut">Sign Out</button> 
 	</div>
 </template>

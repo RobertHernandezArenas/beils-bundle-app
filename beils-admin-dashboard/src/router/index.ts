@@ -13,10 +13,10 @@ export const router = createRouter({
 				requiresAuth: true,
 				breadcumb: 'Panel de Control'
 			},
-			component: () => import('@pages/Dashboard.vue')
+      component: () => import('@pages/Dashboard.vue')
 		},
 		{
-			path: '/',
+			path: '/login',
 			name: 'login',
 			meta: {
 				title: 'Autenticación',

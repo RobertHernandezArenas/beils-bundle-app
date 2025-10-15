@@ -1,9 +1,9 @@
 <script setup lang="ts">
 	import { useNavbarData } from '@/data/navbar-items'
-import { useAuthStore } from '@/stores/auth.store'
+	import { useAuthStore } from '@/stores/auth.store'
 	import { TextAlignJustify, LogOut } from 'lucide-vue-next'
 
-  const authStore = useAuthStore()
+	const authStore = useAuthStore()
 	const navbarData = useNavbarData()
 </script>
 

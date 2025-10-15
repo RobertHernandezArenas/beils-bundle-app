@@ -8,52 +8,78 @@ export const useAuthStore = defineStore('auth', () => {
 	const session = ref<Session | null>(null)
 	const user = computed<User | null>(() => session.value?.user ?? null)
 	const isLoading = ref(false)
+	const errorMessage = ref<string | null>(null)
 
-	const isUserAuthenticated = computed(() => session.value?.user)
+	const isAuthenticated = computed(() => session.value?.user)
 
 	const signIn = async (email: string, password: string) => {
 		isLoading.value = true
-		const { data, error } = await Supabase.auth.signInWithPassword({ email, password })
-		isLoading.value = false
-		if (error) throw error
-		session.value = data.session
-		return data.session
+		errorMessage.value = null
+
+		try {
+			const { data, error } = await Supabase.auth.signInWithPassword({ email, password })
+
+			isLoading.value = false
+
+			if (error) throw error
+			session.value = data.session
+
+			router.replace({ name: 'dashboard' })
+		} catch (error) {
+			if (error instanceof Error) {
+				errorMessage.value = error.message || 'Error al iniciar sesión'
+			}
+		} finally {
+			isLoading.value = false
+		}
 	}
 
 	const signOut = async () => {
 		await Supabase.auth.signOut()
 		session.value = null
-		// Limpiar credenciales guardadas al cerrar sesión
-		localStorage.removeItem('rememberedCredentials')
 		router.replace({ name: 'login' })
 	}
 
 	const initAuth = async () => {
 		isLoading.value = true
 		try {
-			const { data } = await Supabase.auth.getSession()
-			session.value = data.session
+			// 👇 Esto fuerza la renovación del token si está expirado (pero refresh_token es válido)
+			const {
+				data: { user },
+				error
+			} = await Supabase.auth.getUser()
 
-			// Redirigir al dashboard si hay sesión activa y está en login
-			if (data.session && router.currentRoute.value.name === 'login') {
-				router.push({ name: 'dashboard' })
+			if (error || !user) {
+				session.value = null
+				if (router.currentRoute.value.meta.requiresAuth) {
+					router.push({ name: 'login' })
+				}
+			} else {
+				// Si getUser() funciona, la sesión es válida
+				const { data } = await Supabase.auth.getSession()
+				session.value = data.session
+				// TODO: arreglar la redirección y keeping session
+				/* if (router.currentRoute.value.name === 'login') {
+					router.push({ name: 'dashboard' })
+				} */
+				Supabase.auth.onAuthStateChange((_event, newSession) => {
+					session.value = newSession
+					// ... lógica de redirección
+					if (router.currentRoute.value.name === 'login') {
+						router.push({ name: 'dashboard' })
+					}
+				})
 			}
 		} finally {
 			isLoading.value = false
 		}
 
-		// Escuchar cambios de autenticación
+		// Listener para cambios futuros
 		Supabase.auth.onAuthStateChange((_event, newSession) => {
 			session.value = newSession
-
-			// Redirigir según el estado de autenticación
-			if (newSession && router.currentRoute.value.name === 'login') {
-				router.push({ name: 'dashboard' })
-			} else if (!newSession && router.currentRoute.value.meta.requiresAuth) {
-				router.push({ name: 'login' })
-			}
+			// ... lógica de redirección
 		})
 	}
 
-	return { session, user, isLoading, signIn, signOut, initAuth, isUserAuthenticated }
+	return { session, user, isLoading, errorMessage, signIn, signOut, initAuth, isAuthenticated }
 })
