@@ -6,6 +6,10 @@ export const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
+			path: '/',
+			redirect: { name: 'dashboard' }
+		},
+		{
 			path: '/dashboard',
 			name: 'dashboard',
 			meta: {
@@ -13,16 +17,16 @@ export const router = createRouter({
 				requiresAuth: true,
 				breadcumb: 'Panel de Control'
 			},
-      component: () => import('@pages/Dashboard.vue')
+			component: () => import('@pages/Dashboard.vue')
 		},
 		{
-			path: '/login',
-			name: 'login',
+			path: '/auth',
+			name: 'auth',
 			meta: {
 				title: 'Autenticación',
 				breadcumb: 'Autenticación'
 			},
-			component: () => import('@pages/SignIn.vue')
+			component: () => import('@pages/AuthSignIn.vue')
 		},
 		{
 			path: '/clients',

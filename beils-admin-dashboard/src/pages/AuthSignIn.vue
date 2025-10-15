@@ -6,13 +6,13 @@
 
 	const authStore = useAuthStore()
 
-	interface LoginForm {
+	interface AuthForm {
 		email: string
 		password: string
 		rememberMe: boolean
 	}
 
-	const form = reactive<LoginForm>({
+	const form = reactive<AuthForm>({
 		email: '',
 		password: '',
 		rememberMe: false
@@ -103,7 +103,6 @@
 				</p>
 			</div>
 		</form>
-		{{ console.log('💩', Supabase.auth.getSession()) }}
-		{{ console.log('👽', Supabase.auth.getUser()) }}
+
 	</div>
 </template>

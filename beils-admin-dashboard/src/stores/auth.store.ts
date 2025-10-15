@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
 	const signOut = async () => {
 		await Supabase.auth.signOut()
 		session.value = null
-		router.replace({ name: 'login' })
+		router.replace({ name: 'auth' })
 	}
 
 	const initAuth = async () => {
@@ -52,22 +52,19 @@ export const useAuthStore = defineStore('auth', () => {
 			if (error || !user) {
 				session.value = null
 				if (router.currentRoute.value.meta.requiresAuth) {
-					router.push({ name: 'login' })
+					router.push({ name: 'auth' })
 				}
 			} else {
 				// Si getUser() funciona, la sesión es válida
 				const { data } = await Supabase.auth.getSession()
 				session.value = data.session
 				// TODO: arreglar la redirección y keeping session
-				/* if (router.currentRoute.value.name === 'login') {
+				/* if (router.currentRoute.value.name === 'auth') {
 					router.push({ name: 'dashboard' })
 				} */
 				Supabase.auth.onAuthStateChange((_event, newSession) => {
 					session.value = newSession
 					// ... lógica de redirección
-					if (router.currentRoute.value.name === 'login') {
-						router.push({ name: 'dashboard' })
-					}
 				})
 			}
 		} finally {

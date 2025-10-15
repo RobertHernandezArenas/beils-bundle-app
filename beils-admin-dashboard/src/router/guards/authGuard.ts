@@ -1,17 +1,10 @@
-import { useAuthStore } from '@/stores/auth.store'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
+// TODO: Implementar el guard
 export const authGuard = async (
 	to: RouteLocationNormalized,
 	from: RouteLocationNormalized,
 	next: NavigationGuardNext
 ) => {
-	const authStore = useAuthStore()
-  if (to.meta.requiresAuth && !authStore.session) {
-		next({ name: 'login' })
-	} else if (to.meta.redirectIfAuthenticated && authStore.session) {
-		next({ name: 'dashboard' })
-	} else {
-    next()
-  }
+	next()
 }
