@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { reactive } from 'vue'
 	import LoaderCustom from '@/components/commons/LoaderCustom.vue'
-	import { useAuthStore } from '@/stores/auth.store'
+	import { useAuthStore } from '@/stores/useAuth.store'
 
 	const authStore = useAuthStore()
 

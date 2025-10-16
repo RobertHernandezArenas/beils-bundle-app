@@ -9,7 +9,7 @@
 </script>
 
 <template>
-	<div class="flex min-h-screen items-center justify-center">
+	<div class="flex h-full items-center justify-center">
 		<div class="w-full max-w-md text-center">
 			<div class="mb-8">
 				<h1 class="text-beils-700 text-9xl font-bold">404</h1>

@@ -8,13 +8,13 @@ export const useAuthStore = defineStore('auth', () => {
 	const session = ref<Session | null>(null)
 	const user = computed<User | null>(() => session.value?.user ?? null)
 	const isLoading = ref(false)
-	const errorMessage = ref<string | null>(null)
+	const errorAuthMessage = ref<string | null>(null)
 
 	const isAuthenticated = computed(() => session.value?.user)
 
 	const signIn = async (email: string, password: string) => {
 		isLoading.value = true
-		errorMessage.value = null
+		errorAuthMessage.value = null
 
 		try {
 			const { data, error } = await Supabase.auth.signInWithPassword({ email, password })
@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
 			router.replace({ name: 'dashboard' })
 		} catch (error) {
 			if (error instanceof Error) {
-				errorMessage.value = error.message || 'Error al iniciar sesión'
+				errorAuthMessage.value = error.message || 'Error al iniciar sesión'
 			}
 		} finally {
 			isLoading.value = false
@@ -78,5 +78,5 @@ export const useAuthStore = defineStore('auth', () => {
 		})
 	}
 
-	return { session, user, isLoading, errorMessage, signIn, signOut, initAuth, isAuthenticated }
+	return { session, user, isLoading, errorAuthMessage, signIn, signOut, initAuth, isAuthenticated }
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import { useNavbarData } from '@/data/navbar-items'
-	import { useAuthStore } from '@/stores/auth.store'
+	import { useAuthStore } from '@/stores/useAuth.store'
 	import { TextAlignJustify, LogOut } from 'lucide-vue-next'
 	import { ref } from 'vue'
 
