@@ -20,6 +20,16 @@ export const router = createRouter({
 			component: () => import('@pages/Dashboard.vue')
 		},
 		{
+			path: '/services',
+			name: 'services',
+			meta: {
+				title: 'Servicios',
+				requiresAuth: true,
+				breadcumb: 'Servicios'
+			},
+			component: () => import('@pages/Services.vue')
+		},
+		{
 			path: '/auth',
 			name: 'auth',
 			meta: {
