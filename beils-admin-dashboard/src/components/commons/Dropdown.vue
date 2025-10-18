@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { useAuthStore } from '@/stores/auth.store'
+	import { useAuthStore } from '@/stores/useAuth.store'
 	import { LogOut } from 'lucide-vue-next'
 	import { Settings } from 'lucide-vue-next'
 	import { UserRound } from 'lucide-vue-next'
@@ -21,13 +21,13 @@
 </script>
 
 <template>
-	<details class="dropdown flex flex-col justify-center items-start gap-2">
-		<summary class="flex items-center justify-center gap-2 cursor-pointer">
+	<details class="dropdown flex flex-col items-start justify-center gap-2">
+		<summary class="flex cursor-pointer items-center justify-center gap-2">
 			<slot name="cta" />
 		</summary>
 
 		<ul
-			class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm border-1 border-neutral-100"
+			class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 border-1 border-neutral-100 p-2 shadow-sm"
 		>
 			<h2>{{ props.title }}</h2>
 			<li>

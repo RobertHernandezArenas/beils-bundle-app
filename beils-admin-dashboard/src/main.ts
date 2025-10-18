@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { useAuthStore } from '@stores/auth.store'
+import { useAuthStore } from '@/stores/useAuth.store'
 
 import App from './App.vue'
 import { router } from './router'
