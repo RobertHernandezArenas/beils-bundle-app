@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
 			"@assets/*": ["./src/assets/*"],
@@ -10,7 +11,7 @@
 			"@layouts/*": ["./src/components/layouts/*"],
 			"@pages/*": ["./src/pages/*"],
 			"@stores/*": ["./src/stores/*"],
-			"@sections/*": ["./src/pages/sections/*"],
+			"@sections/*": ["./src/pages/sections/*"]
 		},
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
 	},

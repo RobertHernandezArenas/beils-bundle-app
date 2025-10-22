@@ -41,7 +41,7 @@
 					<span class="text-xs font-light">BELLEZA HONESTA</span>
 				</h1>
 				<!-- <Avatar class="w-6" /> -->
-				<div class="flex-none lg:hidden">
+				<div>
 					<label for="my-drawer-3" aria-label="open sidebar">
 						<TextAlignJustify :size="24" :color="'gray'" />
 					</label>
