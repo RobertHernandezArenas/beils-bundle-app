@@ -7,7 +7,16 @@ export const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			redirect: { name: 'dashboard' }
+			redirect: { name: 'auth' }
+		},
+		{
+			path: '/auth',
+			name: 'auth',
+			meta: {
+				title: 'Autenticación',
+				breadcumb: 'Autenticación'
+			},
+			component: () => import('@pages/AuthSignIn.vue')
 		},
 		{
 			path: '/dashboard',
@@ -28,15 +37,6 @@ export const router = createRouter({
 				breadcumb: 'Servicios'
 			},
 			component: () => import('@pages/Services.vue')
-		},
-		{
-			path: '/auth',
-			name: 'auth',
-			meta: {
-				title: 'Autenticación',
-				breadcumb: 'Autenticación'
-			},
-			component: () => import('@pages/AuthSignIn.vue')
 		},
 		{
 			path: '/clients',

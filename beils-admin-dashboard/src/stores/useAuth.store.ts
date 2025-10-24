@@ -35,9 +35,18 @@ export const useAuthStore = defineStore('auth', () => {
 	}
 
 	const signOut = async () => {
-		await Supabase.auth.signOut()
-		session.value = null
-		router.replace({ name: 'auth' })
+		isLoading.value = true
+		errorAuthMessage.value = null
+		try {
+			isLoading.value = false
+			await Supabase.auth.signOut()
+			session.value = null
+			router.replace({ name: 'auth' })
+		} catch (error) {
+			if (error instanceof Error) {
+				errorAuthMessage.value = error.message || 'Error al cerrar sesión'
+			}
+		}
 	}
 
 	const initAuth = async () => {

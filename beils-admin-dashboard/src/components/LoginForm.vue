@@ -1,72 +1,86 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+	import { reactive } from 'vue'
 
-const props = defineProps<{
-  class?: HTMLAttributes["class"]
-}>()
+	interface AuthForm {
+		email: string
+		password: string
+	}
+
+	const emits = defineEmits(['signin'])
+
+	const formDataInputs = reactive<AuthForm>({
+		email: '',
+		password: ''
+	})
+
+	const handleSignIn = () => {
+		const signInData = { ...formDataInputs }
+		emits('signin', signInData)
+	}
 </script>
 
 <template>
-  <div :class="cn('flex flex-col gap-6', props.class)">
-    <Card>
-      <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div class="flex flex-col gap-6">
-            <div class="grid gap-3">
-              <Label for="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div class="grid gap-3">
-              <div class="flex items-center">
-                <Label for="password">Password</Label>
-                <a
-                  href="#"
-                  class="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Forgot your password?
-                </a>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
-            <div class="flex flex-col gap-3">
-              <Button type="submit" class="w-full">
-                Login
-              </Button>
-              <Button variant="outline" class="w-full">
-                Login with Google
-              </Button>
-            </div>
-          </div>
-          <div class="mt-4 text-center text-sm">
-            Don't have an account?
-            <a href="#" class="underline underline-offset-4">
-              Sign up
-            </a>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
-  </div>
+	<form class="w-xs rounded-lg px-4 py-8 md:w-[412px]" @submit.prevent="handleSignIn">
+		<div class="mb-10 flex flex-col items-center lg:mb-12">
+			<h1
+				class="text-[28px] leading-10 font-extrabold tracking-[.25rem] text-black lg:text-[38px] lg:leading-12"
+			>
+				BEiLS
+			</h1>
+			<p class="text-sm tracking-[2px] text-black">BELLEZA HONESTA</p>
+		</div>
+		<!-- Email Input -->
+		<div class="mt-6">
+			<label for="email" class="block text-sm font-medium text-gray-700">
+				Correo electrónico
+			</label>
+			<div class="mt-1">
+				<input
+					id="email"
+					v-model="formDataInputs.email"
+					name="email"
+					type="email"
+					autocomplete="email"
+					required
+					class="focus:ring-beils-500 focus:border-beils-500 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm"
+				/>
+			</div>
+		</div>
+
+		<!-- Password Input -->
+		<div class="mt-6">
+			<label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+			<div class="mt-1">
+				<input
+					id="password"
+					v-model="formDataInputs.password"
+					name="password"
+					type="password"
+					autocomplete="current-password"
+					required
+					class="focus:ring-beils-500 focus:border-beils-500 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black placeholder-gray-400 shadow-sm focus:outline-none sm:text-sm"
+				/>
+			</div>
+		</div>
+
+		<!-- Sign In Button -->
+		<div class="mt-6">
+			<button
+				type="submit"
+				class="bg-beils-600 hover:bg-beils-700 focus:ring-beils-500 flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
+			>
+				Iniciar sesión
+			</button>
+		</div>
+
+		<!-- Recover Password Link -->
+		<div class="mt-6 text-center">
+			<p class="text-sm text-gray-600">
+				¿Olvidaste la contraseña?
+				<a href="#" class="text-beils-600 hover:text-beils-800 font-medium">
+					Recuperar contraseña
+				</a>
+			</p>
+		</div>
+	</form>
 </template>
